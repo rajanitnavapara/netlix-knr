@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1> {{category}} </h1>
+{% for poster in posters %}
+<div class="posters">
+    
+    <img class="poster" src="{{poster_path}}" alt={{name}}>
+
+</div>          
+{% endfor %}
+{% endblock body %}

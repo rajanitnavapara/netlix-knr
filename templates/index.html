@@ -1,0 +1,104 @@
+{% extends 'base.html' %} {% block body %}
+
+{% comment %}{% endcomment %}
+
+<div class="nav" id="nav">
+<img class="nav__logo"
+			src="https://upload.wikimedia.org/wikipedia/commons/0/0f/Logo_Netflix.png"
+			alt="Netflix Logo"
+			/>
+<img class="nav__avatar"
+			src="https://cdn4.iconfinder.com/data/icons/interface-line-5/32/menu-style1-512.png"
+			alt="avatar"/>
+</div>
+
+<header class="banner">
+  <div class="banner__contents">
+  
+    <div class="banner__title">
+	{% if banner.name %}{{banner.name}}
+	{% else %}{{banner.title}}
+	{% endif %}
+	</div>
+    <div class="banner__buttons">
+      <button class="banner__button">Play</button>
+      <button class="banner__button">My list</button>
+    </div>
+    
+    <h1 class="banner__desc">{{banner.overview|truncatechars:150}}</h1> 
+  </div>
+  <div class="banner--fadeBottom" />
+  
+</header>
+
+{% comment %}
+{% endcomment %}
+<div class="movies">
+{% for keys1,values1 in all_data.items %}
+<div class="row">
+<h1 style={color:black}>{{keys1.upper}}</h1>
+<div class="row__posters">
+{% for key,value in values1.items %}
+	{% if keys1 not in isLarge%}
+	<img  class="row__poster" src="{{base_url}}{{value.backdrop_path}}" alt="{{value.name}}" name="{{value.name}}" value="{{value.title}}" onclick="yt('{{value.title}}')" />
+	{% else %}
+	<img  class="row__poster" id="isLarge" src="{{base_url}}{{value.poster_path}}" value="{{value.title}}" name="query" alt="{{value.name}}" onclick="yt('{{value.title}}')"/>
+	{% endif %}
+{% endfor %}	
+</div>
+</div>
+{% endfor %}
+</div>
+{%comment%}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/{{videos_id}}" frameborder="0" allow="accelerometer"; autoplay="1"; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+{%endcomment%}
+
+<iframe id="video" src="https://www.youtube.com/embed/{{videos_id}}?autoplay=1" width="560" height="315" frameborder="0"></iframe>
+
+
+<style>
+header{
+background-size:cover;
+background-image: url("{{base_url}}{{banner.backdrop_path}}");
+background-position: center;
+}
+</style>
+
+<script>
+//function scrollFunction() {
+//  if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
+//    document.getElementById("nav").style.top = "0";
+//  } else {
+//    document.getElementById("nav").style.top = "0px";
+//  }
+//} 
+const opts ={
+		height : "390",
+		width : "100%",
+		playerVars : {
+			autoplay:1,
+		}
+	}
+function yt(query){
+	console.log({{videos_id}});
+	let url = `{{ytbase}}${query}`;
+	const row = document.getElementsByClassName('row__posters');
+    var iframe = document.getElementById('video');
+	iframe.src = "https://www.youtube.com/embed/"{{videos_id}};
+	iframe.style.width = 560;
+	iframe.style.height = 315;
+	
+	
+}
+
+window.addEventListener("scroll",function() {
+	let nav = document.getElementById("nav");
+		if (window.pageYOffset > 200){
+			nav.classList.add("nav__black");
+		} else {
+			nav.classList.remove("nav__black");
+			}
+		});
+		
+</script>
+{% endblock body %}
